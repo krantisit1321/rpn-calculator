@@ -8,3 +8,5 @@ mvn clean install
 #Without running testcases
 
 mvn clean install -DskipTests
+
+Swagger runs at : http://<hostname>:8080/rpn/swagger-ui.html
