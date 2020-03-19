@@ -1,6 +1,7 @@
 package com.kranti.rpncalculator.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Stack;
 import java.util.function.BiFunction;
@@ -36,16 +37,19 @@ public class CalculationUtility {
     public static boolean isValidExpression(String expression) {
         boolean isValid = true;
         String message = "";
-        int exprLength = expression.split(" ").length;
+
         if (expression == null || expression.isEmpty()) {
             message = "RPN Expression is Empty or null.";
-        } else if (exprLength < 3 || exprLength % 2 == 0) {
-            message = "Invalid expression.";
-        } else if (!hasEnoughSpaces(expression)) {
-            message = "Expression should have ' ' as separator between each entity of expression.";
-        } else if (!hasOperators(expression)) {
-            message = "Sufficient operators may not provided or unsupported operators provided. Supported Operators are :"
-                    + getSupportedOperators();
+        } else {
+            int exprLength = expression.split(" ").length;
+            if (exprLength < 3 || exprLength % 2 == 0) {
+                message = "Invalid expression.";
+            } else if (!hasEnoughSpaces(expression)) {
+                message = "Expression should have ' ' as separator between each entity of expression.";
+            } else if (!hasOperators(expression)) {
+                message = "Sufficient operators may not provided or unsupported operators provided. Supported Operators are :"
+                        + getSupportedOperators();
+            }
         }
         if (!message.isEmpty()) {
             throw new CalculationException(message);
@@ -67,7 +71,7 @@ public class CalculationUtility {
                 buildStack(numbers, (n1, n2) -> n2.multiply(n1));
                 break;
             case "/":
-                buildStack(numbers, (n1, n2) -> n2.divide(n1));
+                buildStack(numbers, (n1, n2) -> n2.divide(n1, 2, RoundingMode.HALF_UP));
                 break;
             default:
                 numbers.push(new BigDecimal(number));
