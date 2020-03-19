@@ -9,4 +9,6 @@ mvn clean install
 
 mvn clean install -DskipTests
 
-Swagger runs at : http://<hostname>:8080/rpn/swagger-ui.html
+Swagger runs at : http://hostname:8080/rpn/swagger-ui.html
+
+PPT has More details on the application
